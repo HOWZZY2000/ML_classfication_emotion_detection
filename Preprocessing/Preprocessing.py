@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from Settings import *
 
 class Preprocessor:
@@ -21,6 +23,9 @@ class Preprocessor:
                     self.df[i] = self.df[i].replace(np.NaN, self.df[i].median())
             elif index == 3:  # using 0
                 self.df.fillna(0)
+            elif index == 4: # using linear regression
+                for i in self.df.columns[self.df.isna().any()].tolist():
+                    test = self.df[i].isna()
             else:
                 raise ValueError('index does not exist')
 

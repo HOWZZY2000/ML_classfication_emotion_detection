@@ -1,7 +1,8 @@
+import sys
+sys.path.append("..")
+from Settings import *
 from sklearn.linear_model import RidgeCV
 from sklearn.feature_selection import SelectFromModel
-from Preprocessing import Preprocessor
-from Settings import *
 
 def importance_feature_selection(data):
     # selecting based on importance

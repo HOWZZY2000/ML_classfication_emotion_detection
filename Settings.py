@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 
 # Save global constant paths
-data_folder = Path("dataset/")
+data_folder = Path("Dataset/")
 ECG = data_folder / "ECG_FeaturesExtracted.csv"
 ET = data_folder / "EyeTracking_FeaturesExtracted.csv"
 GSR = data_folder / "GSR_FeaturesExtracted.csv"
