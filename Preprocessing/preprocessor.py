@@ -4,10 +4,10 @@ from Settings import *
 
 class Preprocessor:
     """
-    A class used for loading and pre-processing data
+    A class used for loading and preprocessing data
     """
-    df = None
-    def __init__(self, path=[ECG, ET, GSR]) -> None:
+    def __init__(self, path=[GSR, ECG, ET]) -> None:
+        assert(all(map(Path.exists, path)))
         df = pd.concat(map(pd.read_csv, path), axis=1) # combining all data files
         self.df = df.loc[:, ~df.columns.duplicated()] # remove duplicated columns
 
@@ -29,8 +29,15 @@ class Preprocessor:
                     self.df[i] = self.df[i].replace(np.NaN, self.df[i].mode())
             elif index == 4: # using 0
                 self.df.fillna(0)
+            elif index == 5: # using last observation carried forward
+                for i in self.df.columns[self.df.isna().any()].tolist():
+                    self.df[i] = self.df[i].fillna(method="ffill")
+            elif index == 6: # use interpolation
+                for i in self.df.columns[self.df.isna().any()].tolist():
+                    self.df[i] = self.df[i].interpolate(method='linear', limit_direction='forward', axis=0)
+            # elif index == 7: # using
             else:
                 raise ValueError('index does not exist')
-
+        assert(1-self.df.isna().sum().sum())
 
 
