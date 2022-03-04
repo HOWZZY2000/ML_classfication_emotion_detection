@@ -1,9 +1,10 @@
 from Classifiers.SVM import SVM
-from Preprocessing.preprocessor import Preprocessor
-
+from Preprocessing.Preprocessor import Preprocessor
 
 data = Preprocessor()
 data.missing_value_handling(2)
-Predictor = SVM(data)
-Predictor.train()
-print(Predictor.fit())
+data.scale(6)
+data.exam(["GSR_Mean", "SD"])
+# Predictor = SVM(data)
+# Predictor.train()
+# print(Predictor.fit())
