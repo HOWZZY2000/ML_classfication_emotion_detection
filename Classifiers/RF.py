@@ -1,16 +1,13 @@
 import sys
 sys.path.append("..")
-from Model_Evaluation.Feature_selection import *
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
 
-class SVM:
+class RF:
     """
-    Support Vector Machine
+    Random Forest
     """
-    # data, model, X_train, X_test, Y_train, Y_test = (None,) * 6
+
     def __init__(self, pr) -> None:
         self.data = pr
 
@@ -21,7 +18,7 @@ class SVM:
         self.X_train,self. X_test, self.Y_train, self.Y_test = train_test_split(self.data.get_x(),
                                                             self.data.get_y(), test_size=0.3)
         # building classifier
-        self.model = SVC(kernel="linear", C=3, degree=1, random_state=666)
+        self.model = RandomForestClassifier()
         self.model.fit(self.X_train, self.Y_train)
 
     def fit(self) -> float:

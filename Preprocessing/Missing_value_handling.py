@@ -24,7 +24,6 @@ def missing_value_handling(df, index=1) -> None:
         elif index == 6:  # use interpolation
             for i in df.columns[df.isna().any()].tolist():
                 df[i] = df[i].interpolate(method='linear', limit_direction='forward', axis=0)
-        # elif index == 7: # using
         else:
             raise ValueError('index does not exist')
     assert (1 - df.isna().sum().sum())

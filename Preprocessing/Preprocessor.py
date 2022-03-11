@@ -37,16 +37,16 @@ class Preprocessor:
 
     def scale(self, index=None, full=True, columns=[None]):
         if full:
-            columns = self._df.columns
+            columns = self._df.columns[1:]
             if index is None:
-                self._df = pd.DataFrame(scale(self._df), columns=columns)
+                self._df.iloc[:, 1:] = pd.DataFrame(scale(self.get_x()), columns=columns)
             else:
-                self._df = pd.DataFrame(scale(self._df, index), columns=columns)
+                self._df.iloc[:, 1:] = pd.DataFrame(scale(self.get_x(), index), columns=columns)
         else:
-            self._df[columns] = pd.DataFrame(scale(self._df[columns], index), columns=columns)
+            self._df.iloc[:, 1:][columns] = pd.DataFrame(scale(self.get_x()[columns], index), columns=columns)
 
-
-
+    def reduce_dimension(self, former, later):
+        self._df.iloc[:, 0] = self._df.iloc[:, 0].replace(former, later)
 
 
 
