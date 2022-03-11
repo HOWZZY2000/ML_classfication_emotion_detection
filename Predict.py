@@ -4,12 +4,12 @@ from Preprocessing.Preprocessor import Preprocessor
 from Model_Evaluation.Parameter_tuning import parameter_tuning
 from Utili.save_load import *
 
-# examining outliers
-# data.exam(["GSR_Mean", "SD"])
-
 data = Preprocessor()
 data.missing_value_handling(2)
 data.scale(8)
+
+# examining outliers
+# data.exam(["GSR_Mean", "SD"])
 
 # parameter tuning
 # parameter_selection = parameter_tuning(data)
