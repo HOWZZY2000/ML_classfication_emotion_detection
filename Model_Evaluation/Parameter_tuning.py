@@ -3,6 +3,8 @@ sys.path.append("..")
 from Model_Evaluation.Parameters import *
 from sklearn.model_selection import GridSearchCV, RepeatedStratifiedKFold, train_test_split
 from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from matplotlib import pyplot as plt
 import seaborn as sns
@@ -13,7 +15,7 @@ class parameter_tuning():
     """
     def __init__(self, pr):
         self.data = pr
-        self.X_train = self.X_test = self.Y_train = self.Y_test = self.search = None
+        self.X_train = self.X_test = self.Y_train = self.Y_test = self.search = self.estimator = self.param = None
 
     def train_split(self, size=0.2):
         self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.data.get_x(),
@@ -25,10 +27,25 @@ class parameter_tuning():
         y_true, y_pred = self.Y_test, self.search.predict(self.X_test)
         print(classification_report(y_true, y_pred))
 
+    def build(self, index=0):
+        if index == 0:  # svc estimator
+            self.estimator = SVC(probability=True)
+            self.param = full_svm_param_grid
+        elif index == 1:  # random forest estimator
+            self.estimator = RandomForestClassifier()
+            self.param = full_rf_param_grid
+        elif index == 2: # KNN
+            self.estimator = KNeighborsClassifier()
+            self.param = full_knn_param_grid
+        else:
+            raise ValueError('index does not exist')
+
     def grid_search(self): # evaluated using f1_micro score
+        if self.estimator is None or self.param is None:
+            raise ValueError('Estimator or param is empty, must run build first')
         cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=5, random_state=0)
-        self.search = GridSearchCV(estimator=SVC(probability=True),
-                                   param_grid=svc_best_param, scoring=list_of_scoring,
+        self.search = GridSearchCV(estimator=self.estimator,
+                                   param_grid=self.param, scoring=list_of_scoring,
                                    refit="f1", cv=cv)
         self.search.fit(self.data.get_x(), self.data.get_y())
         means = self.search.cv_results_["mean_test_f1"]

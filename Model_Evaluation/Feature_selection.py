@@ -3,6 +3,7 @@ sys.path.append("..")
 from Settings import *
 from sklearn.linear_model import RidgeCV
 from sklearn.feature_selection import SelectFromModel
+from sklearn.decomposition import PCA
 
 def importance_feature_selection(data):
     # selecting based on importance
@@ -15,4 +16,10 @@ def importance_feature_selection(data):
     # print(f"Features selected by SelectFromModel: {feature_names[sfm.get_support()]}")
     return feature_names[sfm.get_support()]
 
+def pca(num, data):
+    selection = PCA(n_components=num)
+    selection.fit(data)
+    print("Percentage of variance explained by each of the selected components: ")
+    print(selection.explained_variance_ratio_)
+    return pd.DataFrame(selection.transform(data))
 

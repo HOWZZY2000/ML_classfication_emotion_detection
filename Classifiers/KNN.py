@@ -3,11 +3,11 @@ sys.path.append("..")
 from Model_Evaluation.Feature_selection import *
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 
-class SVM:
+class KNN:
     """
-    Support Vector Machine
+    K-Nearest Neighbors
     """
     # data, model, X_train, X_test, Y_train, Y_test = (None,) * 6
     def __init__(self, pr) -> None:
@@ -20,7 +20,7 @@ class SVM:
         self.X_train,self. X_test, self.Y_train, self.Y_test = train_test_split(self.data.get_x(),
                                                             self.data.get_y(), test_size=0.3)
         # building classifier
-        self.model = SVC(kernel="linear", C=3, degree=1, random_state=666)
+        self.model = KNeighborsClassifier(n_neighbors=3)
         self.model.fit(self.X_train, self.Y_train)
 
     def fit(self) -> float:
