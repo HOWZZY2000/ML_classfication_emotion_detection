@@ -21,5 +21,5 @@ def pca(num, data):
     selection.fit(data)
     print("Percentage of variance explained by each of the selected components: ")
     print(selection.explained_variance_ratio_)
-    return pd.DataFrame(selection.transform(data))
+    return pd.DataFrame(selection.transform(data)) # return the transformed dataframe
 
