@@ -17,7 +17,7 @@ class KNN:
     #     self.data.df.loc[:, importance_feature_selection(self.data)]
 
     def train(self) -> None:
-        self.X_train,self. X_test, self.Y_train, self.Y_test = train_test_split(self.data.get_x(),
+        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.data.get_x(),
                                                             self.data.get_y(), test_size=0.3)
         # building classifier
         self.model = KNeighborsClassifier(n_neighbors=3)
